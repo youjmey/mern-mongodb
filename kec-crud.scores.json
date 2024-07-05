@@ -1,0 +1,94 @@
+[
+  {
+    "_id": {
+      "$oid": "66829a1394b9b1a9b107ee3d"
+    },
+    "name": "Suyasha",
+    "points": [
+      {
+        "sub": "Social",
+        "point": 75
+      },
+      {
+        "sub": "Science",
+        "point": 84
+      },
+      {
+        "sub": "Science",
+        "points": 92
+      }
+    ],
+    "age": 12.5,
+    "marks": [88, 89, [87, 92], 87],
+    "luckyThings": {
+      "number": 7,
+      "color": "blue"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66829a1394b9b1a9b107ee3e"
+    },
+    "name": "Smarika",
+    "points": [
+      {
+        "sub": "Social",
+        "point": 67
+      }
+    ],
+    "age": 12,
+    "marks": [88],
+    "luckyThings": {
+      "number": 8,
+      "color": "green"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66829a1394b9b1a9b107ee3c"
+    },
+    "name": "Rajan",
+    "points": [
+      {
+        "sub": "Social",
+        "point": 82
+      },
+      {
+        "sub": "Science",
+        "point": 65
+      },
+      {
+        "sub": "Social",
+        "point": 83
+      }
+    ],
+    "age": 15,
+    "marks": [82, 85, 88, 92, 78, 67, 83, 95, 52],
+    "luckyThings": {
+      "number": 10,
+      "color": "green"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "66852011b75c74a809c97873"
+    },
+    "name": "Smarika",
+    "points": [
+      {
+        "sub": "Social",
+        "point": 67
+      },
+      {
+        "sub": "Science",
+        "point": 89
+      }
+    ],
+    "age": 10,
+    "marks": [88],
+    "luckyThings": {
+      "number": 7,
+      "color": "green"
+    }
+  }
+]
