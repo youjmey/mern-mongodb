@@ -7,6 +7,9 @@ use("kec-crud");
 //? $sort
 //? $skip
 //? $limit
+//? $lookup
+//? $unwind
+// todo $group
 // db.movies.aggregate([
 //   {
 //     $match: { name: "Glee" },
@@ -133,25 +136,42 @@ use("kec-crud");
 // ]);
 
 //? find 5 movies whose rating is greater than 8 and id sorted in ascending order
+// db.movies.aggregate([
+//   {
+//     $match: {
+//       "rating.average": { $gt: 8 },
+//     },
+//   },
+//   {
+//     $sort: {
+//       id: 1,
+//     },
+//   },
+//   {
+//     $limit: 5,
+//   },
+//   {
+//     $project: {
+//       id: 1,
+//       _id: 0,
+//       name: 1,
+//     },
+//   },
+// ]);
+
+let page = 2;
+let limit = 30;
+let skip = (page - 1) * limit;
 db.movies.aggregate([
-  {
-    $match: {
-      "rating.average": { $gt: 8 },
-    },
-  },
-  {
-    $sort: {
-      id: 1,
-    },
-  },
-  {
-    $limit: 5,
-  },
+  { $match: {} },
+  { $sort: { id: 1 } },
+  { $skip: skip },
+  { $limit: limit },
   {
     $project: {
-      id: 1,
       _id: 0,
       name: 1,
+      id: 1,
     },
   },
 ]);
