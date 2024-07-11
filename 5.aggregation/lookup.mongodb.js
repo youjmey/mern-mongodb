@@ -103,28 +103,52 @@ use("kec-crud");
 // });
 // db.vehicle.find();
 
-db.person.aggregate([
+// db.person.aggregate([
+//   {
+//     $match: {
+//       firstname: "enish",
+//     },
+//   },
+//   {
+//     $lookup: {
+//       localField: "_id",
+//       from: "vehicle",
+//       foreignField: "ownerId",
+//       as: "vehicleData",
+//     },
+//   },
+//   {
+//     $project: {
+//       firstname: 1,
+//       lastname: 1,
+//       models: "$vehicleData.model",
+//       "vehicleData.model": 1,
+//       "vehicleData.brand": 1,
+//       lastCarBrand: { $last: "$vehicleData.brand" },
+//     },
+//   },
+// ]);
+//? find owner of ford mustang car
+db.vehicle.aggregate([
   {
     $match: {
-      firstname: "enish",
+      model: "Mustang",
     },
   },
   {
     $lookup: {
-      localField: "_id",
-      from: "vehicle",
-      foreignField: "ownerId",
+      localField: "ownerId",
+      from: "person",
+      foreignField: "_id",
       as: "vehicleData",
     },
   },
   {
     $project: {
-      firstname: 1,
-      lastname: 1,
-      models: "$vehicleData.model",
-      "vehicleData.model": 1,
-      "vehicleData.brand": 1,
-      lastCarBrand: { $last: "$vehicleData.brand" },
+      model: 1,
+      brand: 1,
+      ownerFirstname: { $first: "$vehicleData.firstname" },
+      ownerLastname: { $first: "$vehicleData.lastname" },
     },
   },
 ]);

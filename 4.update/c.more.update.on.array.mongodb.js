@@ -10,14 +10,14 @@ use("kec-crud");
 //     },
 //   }
 // );
-db.scores.updateOne(
-  { name: "Suyasha", "points.sub": "Science" },
-  {
-    $inc: {
-      "points.$.points": 3,
-    },
-  }
-);
+// db.scores.updateOne(
+//   { name: "Suyasha", "points.sub": "Science" },
+//   {
+//     $inc: {
+//       "points.$.points": 3,
+//     },
+//   }
+// );
 //? update sub from "c++" to "mern " and point to 69 from smarika
 // db.scores.updateOne(
 //   { name: "Smarika", "points.sub": "mern" },
