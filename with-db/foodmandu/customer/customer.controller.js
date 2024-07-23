@@ -47,4 +47,75 @@ router.get("/customer/detail/:id", async (req, res) => {
     .status(200)
     .send({ message: "Success", customerDetails: customer });
 });
+
+// delete a customer by id
+router.delete("/customer/delete/:id", async (req, res) => {
+  // extract customer id from req.params
+  const customerId = req.params.id;
+
+  // check for mongo id validity
+  const isValid = mongoose.isValidObjectId(customerId);
+
+  // if not valid mongo id, throw error
+  if (!isValid) {
+    return res.status(200).send({ message: "invalid id" });
+  }
+
+  // find customer using customer id
+  const customer = await Customer.findById(customerId);
+
+  // if not customer, throw error
+  if (!customer) {
+    return res.status(400).send({ message: "Customer does not exist." });
+  }
+
+  // delete customer
+  await customer.deleteOne({ _id: customerId });
+
+  // send res
+  return res.status(404).send({ message: "Deleting...." });
+});
+
+// ? edit customer by id
+
+router.put("/customer/edit/:id", async (req, res) => {
+  // extract customer id from req.params
+  const customerId = req.params.id;
+
+  // check for mongo id validity
+  mongoose.isValidId = mongoose.isValidObjectId(customerId);
+
+  // if not valid mongo id, throw error
+  if (!isValid) {
+    return res.status(400).send({ message: "Invalid mongo id" });
+  }
+
+  // find customer
+  const customer = await Customer.findOne({ _id: customerId });
+
+  // if not customer, throw error
+  if (!customerId) {
+    return res.status(404).send({ message: "customer doesnot exist." });
+  }
+
+  // extract new values from req.body
+  const newvalues = req.body;
+
+  // update customer
+  // await Customer.updateOne(
+  //   { _id: customerId },
+  //   {
+  //     $set: {
+  //       ...newvalues,
+  //     },
+  //   }
+  // );
+
+  // or
+  await Customer.findByIdAndUpdate(customerId, { ...newvalues });
+
+  // send res
+  return res.status(200).send({ message: "customer is updated sucessfully " });
+});
+
 export default router;
