@@ -2,7 +2,10 @@ import express from "express";
 import { isSeller, isUser } from "../middleware/authentication.middleware.js";
 import Product from "./product.model.js";
 import validateReqBody from "../middleware/validate.req.body.js";
-import { addProductValidationSchema } from "./product.validation.js";
+import {
+  addProductValidationSchema,
+  paginationDataValidationSchema,
+} from "./product.validation.js";
 import validateMongoIdFromParams from "../middleware/validate.mongo.id.js";
 import checkMongoIdsEquality from "../utils/mongo.id.equality.js";
 
@@ -103,6 +106,63 @@ router.put(
     await Product.updateOne({ _id: productId }, { $set: { ...newValues } });
     // send res
     return res.status(200).send("Product edited successfully .");
+  }
+);
+
+// * get product details
+router.get(
+  "/product/detail/:id",
+  isUser,
+  validateMongoIdFromParams,
+  async (req, res) => {
+    //extract product id from req.params
+    const productId = req.params.id;
+    // find product using product id
+    const product = await Product.findOne({ _id: productId });
+    // if not product ,thrown error
+    if (!product) {
+      return res.status(404).send({ message: "Product not available." });
+    }
+    // send res
+    return res.status(200).send({ message: "success", productDetail: product });
+  }
+);
+
+// * list product by seller
+router.post(
+  "/product/seller/list",
+  isSeller,
+  validateReqBody(paginationDataValidationSchema),
+  async (req, res) => {
+    // extract pagination data from req.body
+    const { page, limit, searchText } = req.body;
+    // calculate skip
+    const skip = (page - 1) * limit;
+
+    // condition
+    let match = { sellerId: req.loggedInUserId };
+
+    if (searchText) {
+      match.name = { $regex: searchText, $options: "i" };
+    }
+    // console.log(match);
+    const products = await Product.aggregate([
+      { $match: { sellerId: req.loggedInUserId } },
+      { $skip: skip },
+      { $limit: limit },
+      {
+        $project: {
+          name: 1,
+          price: 1,
+          brand: 1,
+          image: 1,
+          description: 1,
+        },
+      },
+    ]);
+    // console.log(products);
+
+    return res.status(200).send({ message: "success", productList: products });
   }
 );
 export default router;

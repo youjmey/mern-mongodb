@@ -1,5 +1,4 @@
 import express from "express";
-import Yup from "yup";
 import {
   loginUserValidationSchema,
   userValidationSchema,
