@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 // set schema
 
 const cartSchema = new mongoose.Schema({
-  buyerID: {
+  buyerId: {
     type: mongoose.ObjectId,
     ref: "User",
     required: true,
@@ -22,3 +22,5 @@ const cartSchema = new mongoose.Schema({
 
 // create table
 const Cart = mongoose.model("Cart", cartSchema);
+
+export default Cart;
